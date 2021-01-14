@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const PORT = 3000;
 
+let frenchMovies = [];
 app.use('/public', express.static('public')); //.use permet d'indiquer quel middleware on aimerait ajouter
 //app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -11,14 +12,16 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.get('/movies', (req, res) => {
-    const title = 'Meilleres films/séries'
+    const title = 'Meilleres films/séries';
+
     const frenchMovies = [
         { title: 'Le fabuleux destin de Sabrina', year: 2001},
         { title: 'Les frères scott', year: 2004},
         { title: 'Need for speed', year: 2003},
         { title: 'Power', year: 2019},
-    ]
-    res.render('movies', { movies: frenchMovies , title: title }) //pour utiliser un template il faut utiliser la méthode render, il sait automatiquement qu'on utilise un template. Pas besoin également de préciser le format .ejs car on déclarer ceci plus haut : app.set('view engine', 'ejs');
+    ];
+    console.log('Avant frenchMovies', frenchMovies);
+    res.render('movies', { movies: frenchMovies, title: title }) //pour utiliser un template il faut utiliser la méthode render, il sait automatiquement qu'on utilise un template. Pas besoin également de préciser le format .ejs car on déclarer ceci plus haut : app.set('view engine', 'ejs');
 });
 
 let urlEncodedParser = bodyParser.urlencoded({ extended: false });
@@ -26,6 +29,10 @@ let urlEncodedParser = bodyParser.urlencoded({ extended: false });
 app.post('/movies', urlEncodedParser, (req, res) => {
     console.log('Le titre :', req.body.movieTitle);
     console.log('Lannée :', req.body.movieYear);
+    const newMovie = { title: req.body.movieTitle, year: req.body.movieYear };
+    frenchMovies = [...frenchMovies, newMovie];
+    console.log('Après frenchMovies', frenchMovies);
+
     res.sendStatus(201);
 }); 
 
