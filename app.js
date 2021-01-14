@@ -23,8 +23,9 @@ app.get('/movies/add', (req, res) => {
 
 app.get('/movies/:id', (req, res) => { //indique à node qu'un paramètre va être indiqué //Ajout d'un paramètre à une route
     const id = req.params.id;
+    const title = req.params.title;
     //res.send(`Film numéro ${id}`);
-    res.render('movie-details');
+    res.render('movie-details', { movieId: id });
 });
 
 app.get('/', (req, res) => {
