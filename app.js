@@ -9,8 +9,13 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.get('/movies', (req, res) => {
-    res.send('Bientôt des films ici même');
+    //res.send('Bientôt des films ici même');
+    res.render('movies') //pour utiliser un template il faut utiliser la méthode render, il sait automatiquement qu'on utilise un template. Pas besoin également de préciser le format .ejs car on déclarer ceci plus haut : app.set('view engine', 'ejs');
 });
+
+/*app.get('/movie-details', (req, res) => {
+    res.render('movie-details');
+});*/
 
 app.get('/movies/add', (req, res) => {
     res.send('Prochainement, un formulaire pour réaliser des ajouts ici)');
@@ -18,13 +23,12 @@ app.get('/movies/add', (req, res) => {
 
 app.get('/movies/:id', (req, res) => { //indique à node qu'un paramètre va être indiqué //Ajout d'un paramètre à une route
     const id = req.params.id;
-    res.send(`Film numéro ${id}`);
+    //res.send(`Film numéro ${id}`);
+    res.render('movie-details');
 });
 
 app.get('/', (req, res) => {
-    //res.send('Hello <b>World</b>');
     res.render('index') //pour utiliser un template il faut utiliser la méthode render, il sait automatiquement qu'on utilise un template. Pas besoin également de préciser le format .ejs car on déclarer ceci plus haut : app.set('view engine', 'ejs');
-
 });
 
 app.listen(PORT, () => {
