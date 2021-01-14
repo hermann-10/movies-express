@@ -52,8 +52,8 @@
                     console.error('request failed', error);
                 })
             }
-            else{ //s'il n'est pas reconnu
-                // jQuerx, XHR
+            else{ //s'il n'est pas reconnu par le navigateur
+            addMovieUsingXHR(event); // jQuery, XHR
             }
         }
 
@@ -68,6 +68,28 @@
                 form.reset(); //Pour vider les champs du formulaire
             }
         }
+
+        function addMovieUsingXHR(event) {
+				// this browser does NOT support fetch. Fall back to XHR
+				event.preventDefault();
+				console.log('using addMovieUsingXHR()');				
+				// https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send
+				let xhr = new XMLHttpRequest();
+				xhr.open("POST", '/movies-old-browser', true);
+				//Send the proper header information along with the request
+				xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xhr.onreadystatechange = function() {//Call a function when the state changes.
+					if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+						form.reset();
+					}
+				}
+				// https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+				console.log('form: ', form);
+				let movietitle = document.getElementById('movietitle').value;
+				let movieyear = document.getElementById('movieyear').value;
+				let payLoad = "movietitle=" + movietitle + "&" + "movieyear=" + movieyear; 
+				xhr.send(payLoad); 				
+			}
     </script>
 </body>
 
