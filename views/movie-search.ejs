@@ -13,7 +13,7 @@
         <button id="btnSearch">Chercher</button>
     </div>
 
-    <div id="result">
+    <div id="results">
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -30,10 +30,20 @@
             axios.get(query) //Cela nous retourne une promesse à laquel on peut y ajouter un .then
             .then( (response)=> {
                 console.log('Response :', response);
+                displayResult(response.data.results);
             })
             .catch(function(e) {
             console.log(e); // "zut !"
             })
+        }
+
+        function displayResult(results){
+            resultsDiv.innerHTML = ''; //je vide son contenu au cas où il y aura eu une recherche auparavant
+            for(let result of results){
+                let movieDiv = document.createElement('div');
+                movieDiv.innerHTML = result.title;
+                resultsDiv.appendChild(movieDiv);
+            }
         }
 
 
