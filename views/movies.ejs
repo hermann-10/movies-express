@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <title><%= title %></title>
+    <title>
+        <%= title %>
+    </title>
     <link rel="stylesheet" href="../public/style.css">
 </head>
+
 <body>
     <div>
         <div>
@@ -14,22 +18,57 @@
         </div>
     </div>
     <h1>Movies</h1>
-    <div>
+    <div class="french-movies">
         <% for(movie of movies) {%>
-            <div><%= movie.title %> (<%= movie.year %>)</div>
-        <% } %>
+            <div >
+                <%= movie.title %> (<%= movie.year %>)
+            </div>
+            <% } %>
     </div>
-   <br>
-   <div>
-       <form action="/movies" method="POST">
-        <label for="movieTitle">Titre du film</label>
-        <input type="text" name="movieTitle" id="movieTitle">
-        <label for="movieYear">Année du film</label>
-        <input type="text" name="movieYear" id="movieYear">
-        <button type="submit">Ajouter</button>
-    
-       </form>
-   </div>
-    
+    <br>
+    <div>
+        <form action="/movies" method="POST">
+            <label for="movieTitle">Titre du film</label>
+            <input type="text" name="movieTitle" id="movieTitle">
+            <label for="movieYear">Année du film</label>
+            <input type="text" name="movieYear" id="movieYear">
+            <button type="submit">Ajouter</button>
+        </form>
+    </div>
+    <script>
+        const form = document.querySelector('form');
+        form.addEventListener('submit', addMovie);
+
+        function addMovie(event){
+            event.preventDefault();
+            
+            if(window.fetch){
+                fetch('/movies',{
+                    method: 'POST',
+                    body: new FormData(form)
+                }) //fetch retourne une promesse qu'on peut y chainer un ".then"
+                .then(checkStatus)
+                .catch(function(error){
+                    console.error('request failed', error);
+                })
+            }
+            else{ //s'il n'est pas reconnu
+                // jQuerx, XHR
+            }
+        }
+
+        function checkStatus(response){
+            if(response.status >= 200 && response.status < 300){ //si la requête est entre 200 et 299 (Quand tout se passe bien)
+                let newMovieDiv = document.createElement('div');
+                const movieTitle = document.getElementById('movieTitle').value;
+                const movieYear = document.getElementById('movieYear').value;
+                newMovieDiv.innerHTML = `${movieTitle} (${movieYear})`; //Utilisation de template string
+                // newMovieDiv.innerHTML = movieTitle + ' ' + '(' + movieYear + ')'; //équivalent à ce qu'il y a ci-dessus
+                document.querySelector('.french-movies').appendChild(newMovieDiv);
+                form.reset(); //Pour vider les champs du formulaire
+            }
+        }
+    </script>
 </body>
+
 </html>
