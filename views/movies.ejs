@@ -59,8 +59,10 @@
         }
         //https://api.themoviedb.org/3/movie?api_key=798865d2515c75e1f2966a2ca026c110
         //https://api.themoviedb.org/3/search/movie?api_key=798865d2515c75e1f2966a2ca026c110
-        //https://api.themoviedb.org/3/search/movie?api_key=798865d2515c75e1f2966a2ca026c110&query=Jack+Reacher&language=fr-FR        function checkStatus(response){
+        //https://api.themoviedb.org/3/search/movie?api_key=798865d2515c75e1f2966a2ca026c110&query=Jack+Reacher&language=fr-FR        
         //https://api.themoviedb.org/3/search/movie?api_key=798865d2515c75e1f2966a2ca026c110&query=Patriots+Day&language=fr-FR 
+        
+        function checkStatus(response){
         if (response.status >= 200 && response.status < 300) { //si la requête est entre 200 et 299 (Quand tout se passe bien)
             let newMovieDiv = document.createElement('div');
             const movieTitle = document.getElementById('movieTitle').value;
@@ -70,6 +72,7 @@
             document.querySelector('.french-movies').appendChild(newMovieDiv);
             form.reset(); //Pour vider les champs du formulaire
         }
+    }
         
 
         function addMovieUsingXHR(event) {
