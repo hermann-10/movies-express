@@ -26,9 +26,8 @@ app.get('/movies', (req, res) => {
     res.render('movies', { movies: frenchMovies, title: title }) //pour utiliser un template il faut utiliser la méthode render, il sait automatiquement qu'on utilise un template. Pas besoin également de préciser le format .ejs car on déclarer ceci plus haut : app.set('view engine', 'ejs');
 });
 
-let urlEncodedParser = bodyParser.urlencoded({ extended: false });
-
-/*app.post('/movies', urlEncodedParser, (req, res) => {
+/*let urlEncodedParser = bodyParser.urlencoded({ extended: false });
+app.post('/movies', urlEncodedParser, (req, res) => {
     console.log('Le titre :', req.body.movieTitle);
     console.log('Lannée :', req.body.movieYear);
     const newMovie = { title: req.body.movieTitle, year: req.body.movieYear };
@@ -64,6 +63,10 @@ app.get('/movies/:id', (req, res) => { //indique à node qu'un paramètre va êt
 
 app.get('/', (req, res) => {
     res.render('index') //pour utiliser un template il faut utiliser la méthode render, il sait automatiquement qu'on utilise un template. Pas besoin également de préciser le format .ejs car on déclarer ceci plus haut : app.set('view engine', 'ejs');
+});
+
+app.get('/movie-search', (req, res) =>{
+    res.render('movie-search');
 });
 
 app.listen(PORT, () => {
