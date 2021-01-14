@@ -9,13 +9,19 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.get('/movies', (req, res) => {
-    //res.send('Bientôt des films ici même');
-    res.render('movies') //pour utiliser un template il faut utiliser la méthode render, il sait automatiquement qu'on utilise un template. Pas besoin également de préciser le format .ejs car on déclarer ceci plus haut : app.set('view engine', 'ejs');
+    const title = 'Meilleres films/séries'
+    const frenchMovies = [
+        { title: 'Le fabuleux destin de Sabrina', year: 2001},
+        { title: 'Les frères scott', year: 2004},
+        { title: 'Need for speed', year: 2003},
+        { title: 'Power', year: 2019},
+    ]
+    res.render('movies', { movies: frenchMovies , title: title }) //pour utiliser un template il faut utiliser la méthode render, il sait automatiquement qu'on utilise un template. Pas besoin également de préciser le format .ejs car on déclarer ceci plus haut : app.set('view engine', 'ejs');
 });
 
-/*app.get('/movie-details', (req, res) => {
-    res.render('movie-details');
-});*/
+//app.get('/movie-details', (req, res) => {
+  //  res.render('movie-details');
+//});
 
 app.get('/movies/add', (req, res) => {
     res.send('Prochainement, un formulaire pour réaliser des ajouts ici)');
