@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer();
 
 const PORT = 3000;
-
 let frenchMovies = [];
+
 app.use('/public', express.static('public')); //.use permet d'indiquer quel middleware on aimerait ajouter
 //app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -26,7 +28,7 @@ app.get('/movies', (req, res) => {
 
 let urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
-app.post('/movies', urlEncodedParser, (req, res) => {
+/*app.post('/movies', urlEncodedParser, (req, res) => {
     console.log('Le titre :', req.body.movieTitle);
     console.log('Lannée :', req.body.movieYear);
     const newMovie = { title: req.body.movieTitle, year: req.body.movieYear };
@@ -34,7 +36,19 @@ app.post('/movies', urlEncodedParser, (req, res) => {
     console.log('Après frenchMovies', frenchMovies);
 
     res.sendStatus(201);
-}); 
+}); */
+
+app.post('/movies', upload.fields([]), (req, res) => {
+    if(!req.body){
+        return res.sendStatus(500);
+    } else {
+        const formData = req.body;
+        console.log('formData: ', formData);
+        const newMovie = { title : req.body.movieTitle, year: req.body.movieYear};
+        frenchMovies = [...frenchMovies, newMovie];
+        res.sendStatus(201);
+    }
+});
 
 app.get('/movies/add', (req, res) => {
     res.send('Prochainement, un formulaire pour réaliser des ajouts ici)');
@@ -45,6 +59,7 @@ app.get('/movies/:id', (req, res) => { //indique à node qu'un paramètre va êt
     const title = req.params.title;
     //res.send(`Film numéro ${id}`);
     res.render('movie-details', { movieId: id });
+  
 });
 
 app.get('/', (req, res) => {
