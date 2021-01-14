@@ -10,18 +10,18 @@
 </head>
 
 <body>
-        <div>
-            <a href="/">Express Movies</a>
-            &nbsp;
-            <a href="/movies">Films</a>
-            &nbsp;
-            <a href="/movie-search">Recherche d'un film</a>
-        </div>
-  
+    <div>
+        <a href="/">Movies</a>
+        &nbsp;
+        <a href="/movies">Films</a>
+        &nbsp;
+        <a href="/movie-search">Recherche</a>
+    </div>
+
     <h1>Movies</h1>
     <div class="french-movies">
         <% for(movie of movies) {%>
-            <div >
+            <div>
                 <%= movie.title %> (<%= movie.year %>)
             </div>
             <% } %>
@@ -40,59 +40,59 @@
         const form = document.querySelector('form');
         form.addEventListener('submit', addMovie);
 
-        function addMovie(event){
+        function addMovie(event) {
             event.preventDefault();
-            
-            if(window.fetch){
-                fetch('/movies',{
+
+            if (window.fetch) {
+                fetch('/movies', {
                     method: 'POST',
                     body: new FormData(form)
                 }) //fetch retourne une promesse qu'on peut y chainer un ".then"
-                .then(checkStatus)
-                .catch(function(error){
-                    console.error('request failed', error);
-                })
+                    .then(checkStatus)
+                    .catch(function (error) {
+                        console.error('request failed', error);
+                    })
             }
-            else{ //s'il n'est pas reconnu par le navigateur
-            addMovieUsingXHR(event); // jQuery, XHR
+            else { //s'il n'est pas reconnu par le navigateur
+                addMovieUsingXHR(event); // jQuery, XHR
             }
         }
         //https://api.themoviedb.org/3/movie?api_key=798865d2515c75e1f2966a2ca026c110
         //https://api.themoviedb.org/3/search/movie?api_key=798865d2515c75e1f2966a2ca026c110
         //https://api.themoviedb.org/3/search/movie?api_key=798865d2515c75e1f2966a2ca026c110&query=Jack+Reacher&language=fr-FR        function checkStatus(response){
         //https://api.themoviedb.org/3/search/movie?api_key=798865d2515c75e1f2966a2ca026c110&query=Patriots+Day&language=fr-FR 
-            if(response.status >= 200 && response.status < 300){ //si la requête est entre 200 et 299 (Quand tout se passe bien)
-                let newMovieDiv = document.createElement('div');
-                const movieTitle = document.getElementById('movieTitle').value;
-                const movieYear = document.getElementById('movieYear').value;
-                newMovieDiv.innerHTML = `${movieTitle} (${movieYear})`; //Utilisation de template string
-                // newMovieDiv.innerHTML = movieTitle + ' ' + '(' + movieYear + ')'; //équivalent à ce qu'il y a ci-dessus
-                document.querySelector('.french-movies').appendChild(newMovieDiv);
-                form.reset(); //Pour vider les champs du formulaire
-            }
+        if (response.status >= 200 && response.status < 300) { //si la requête est entre 200 et 299 (Quand tout se passe bien)
+            let newMovieDiv = document.createElement('div');
+            const movieTitle = document.getElementById('movieTitle').value;
+            const movieYear = document.getElementById('movieYear').value;
+            newMovieDiv.innerHTML = `${movieTitle} (${movieYear})`; //Utilisation de template string
+            // newMovieDiv.innerHTML = movieTitle + ' ' + '(' + movieYear + ')'; //équivalent à ce qu'il y a ci-dessus
+            document.querySelector('.french-movies').appendChild(newMovieDiv);
+            form.reset(); //Pour vider les champs du formulaire
         }
+        
 
         function addMovieUsingXHR(event) {
-				// this browser does NOT support fetch. Fall back to XHR
-				event.preventDefault();
-				console.log('using addMovieUsingXHR()');				
-				// https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send
-				let xhr = new XMLHttpRequest();
-				xhr.open("POST", '/movies-old-browser', true);
-				//Send the proper header information along with the request
-				xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-				xhr.onreadystatechange = function() {//Call a function when the state changes.
-					if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-						form.reset();
-					}
-				}
-				// https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
-				console.log('form: ', form);
-				let movietitle = document.getElementById('movietitle').value;
-				let movieyear = document.getElementById('movieyear').value;
-				let payLoad = "movietitle=" + movietitle + "&" + "movieyear=" + movieyear; 
-				xhr.send(payLoad); 				
-			}
+            // this browser does NOT support fetch. Fall back to XHR
+            event.preventDefault();
+            console.log('using addMovieUsingXHR()');
+            // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", '/movies-old-browser', true);
+            //Send the proper header information along with the request
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {//Call a function when the state changes.
+                if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                    form.reset();
+                }
+            }
+            // https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+            console.log('form: ', form);
+            let movietitle = document.getElementById('movietitle').value;
+            let movieyear = document.getElementById('movieyear').value;
+            let payLoad = "movietitle=" + movietitle + "&" + "movieyear=" + movieyear;
+            xhr.send(payLoad);
+        }
     </script>
 </body>
 

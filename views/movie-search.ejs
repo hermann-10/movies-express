@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Search</title>
+    <link rel="stylesheet" href="../public/style.css">
 </head>
 <body>
     <div>
-        <a href="/">Express Movies</a>
+        <a href="/">Movies</a>
         &nbsp;
         <a href="/movies">Films</a>
         &nbsp;
-        <a href="/movie-search">Recherche d'un film</a>
+        <a href="/movie-search">Recherche</a>
     </div>
     <h1>Votre recherche sur <em>The Movie Database </em></h1>
     
@@ -25,6 +26,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        //const environment = require('../environment.js');
         const API_KEY = "798865d2515c75e1f2966a2ca026c110";
         const term = document.querySelector('#term');
         const btnSearch = document.querySelector('#btnSearch')
