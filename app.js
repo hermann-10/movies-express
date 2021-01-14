@@ -3,6 +3,11 @@ const app = express();
 
 const PORT = 3000;
 
+app.use('/public', express.static('public')); //.use permet d'indiquer quel middleware on aimerait ajouter
+
+app.set('views', './views');
+app.set('view engine', 'ejs');
+
 app.get('/movies', (req, res) => {
     res.send('Bientôt des films ici même');
 });
@@ -17,7 +22,9 @@ app.get('/movies/:id', (req, res) => { //indique à node qu'un paramètre va êt
 });
 
 app.get('/', (req, res) => {
-    res.send('Hello <b>World</b>');
+    //res.send('Hello <b>World</b>');
+    res.render('index') //pour utiliser un template il faut utiliser la méthode render, il sait automatiquement qu'on utilise un template. Pas besoin également de préciser le format .ejs car on déclarer ceci plus haut : app.set('view engine', 'ejs');
+
 });
 
 app.listen(PORT, () => {
